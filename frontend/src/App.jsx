@@ -1,6 +1,10 @@
+
+import Navbar from './Navbar';
+
 export default function App() {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white p-4">
+      <Navbar /> 
       <div className="bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-800 text-center max-w-md">
         <h1 className="text-3xl font-extrabold text-blue-500 mb-4">
           ¡Entorno Completo!
