@@ -1,11 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middlewares
+// Middlewares de seguridad y logging
+app.use(helmet());
+app.use(morgan('dev'));
+
+// Middlewares de comunicación
 app.use(cors());
 app.use(express.json());
 
