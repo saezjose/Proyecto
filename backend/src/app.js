@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 const datosRoutes = require('./routes/datos.routes');
+const contactoRoutes = require('./routes/contacto.routes');
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.use(express.json());
 
 // Rutas de la API
 app.use('/api', datosRoutes);
+app.use('/api', contactoRoutes);
 
 module.exports = app;

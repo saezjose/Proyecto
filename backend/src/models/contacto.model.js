@@ -24,7 +24,7 @@ const obtenerContactoPorId = (id) => {
     return stmt.get(id);
 };
 
-// UPDATE — reemplaza todos los campos de un contacto
+// UPDATE — reemplaza todos los campos de un contacto (PUT)
 const actualizarContacto = (id, { nombre, email, telefono, mensaje }) => {
     const stmt = db.prepare(`
         UPDATE contactos
@@ -33,6 +33,27 @@ const actualizarContacto = (id, { nombre, email, telefono, mensaje }) => {
     `);
     const resultado = stmt.run(nombre, email, telefono, mensaje, id);
     if (resultado.changes === 0) return null;
+    return obtenerContactoPorId(id);
+};
+
+// UPDATE PARCIAL — modifica solo los campos enviados (PATCH)
+const actualizarParcialContacto = (id, campos) => {
+    const existente = obtenerContactoPorId(id);
+    if (!existente) return null;
+
+    const permitidos = ['nombre', 'email', 'telefono', 'mensaje'];
+    const aActualizar = Object.keys(campos).filter(
+        (campo) => permitidos.includes(campo) && campos[campo] !== undefined
+    );
+
+    if (aActualizar.length === 0) return existente;
+
+    const asignaciones = aActualizar.map((campo) => `${campo} = ?`).join(', ');
+    const valores = aActualizar.map((campo) => campos[campo]);
+
+    const stmt = db.prepare(`UPDATE contactos SET ${asignaciones} WHERE id = ?`);
+    stmt.run(...valores, id);
+
     return obtenerContactoPorId(id);
 };
 
@@ -48,5 +69,6 @@ module.exports = {
     obtenerContactos,
     obtenerContactoPorId,
     actualizarContacto,
+    actualizarParcialContacto,
     eliminarContacto
 };
