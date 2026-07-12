@@ -1,21 +1,10 @@
-const express = require('express');
-const cors = require('cors');
+// Server: punto de entrada. Solo levanta el servidor.
+
 require('dotenv').config();
+require('./src/config/database');
+const app = require('./src/app');
 
-const app = express();
 const PORT = process.env.PORT || 3001;
-
-// Middlewares
-app.use(cors());
-app.use(express.json());
-
-// Ruta base de prueba
-app.get('/api/datos', (req, res) => {
-    res.json({
-        mensaje: "¡Conexión exitosa con el backend de Express!",
-        status: "OK"
-    });
-});
 
 app.listen(PORT, () => {
     console.log(`[SERVER] Servidor corriendo con éxito en: http://localhost:${PORT}`);
