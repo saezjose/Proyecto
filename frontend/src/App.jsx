@@ -3,7 +3,7 @@ export default function App() {
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-white p-4">
       <div className="bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-800 text-center max-w-md">
         <h1 className="text-3xl font-extrabold text-blue-500 mb-4">
-          ¡Entorno Completo!
+          ¡Me cague pense que lo perdi!
         </h1>
         <p className="text-slate-400 mb-6">
           Node, Express, Vite, React y Tailwind CSS v4 están corriendo e integrados sin errores.
