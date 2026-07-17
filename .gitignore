@@ -1,7 +1,14 @@
+# Dependencias
 node_modules/
+
+# Variables de entorno
 .env
 local.env
+
+# Base de datos (cada uno tiene la suya local)
+*.db
+
+# Sistema y editor
 .DS_Store
 .vscode/
 .claude/
-.db
