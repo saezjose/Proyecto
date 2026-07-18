@@ -1,6 +1,6 @@
 // Servicio: toda la comunicación con la API del backend vive acá.
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 // Envía un contacto nuevo (POST /api/contactos)
 export const enviarContacto = async (datos) => {

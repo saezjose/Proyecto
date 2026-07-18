@@ -11,7 +11,7 @@ export const NEGOCIO = {
     comuna: 'Estación Central',
     region: 'Región Metropolitana',
 
-    // TODO: reemplazar por el horario real
+    
     horario: {
         semana: 'Lunes a Viernes: 9:00 - 19:00',
         sabado: 'Sábado: 9:00 - 14:00',
