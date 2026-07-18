@@ -1,9 +1,7 @@
 // Controlador: lógica de cada endpoint de contactos
 
 const modelo = require('../models/contacto.model');
-
-// Valida el formato de un email
-const emailValido = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const { limpiarTexto, emailValido } = require('../utils/sanitizar');
 
 // POST /api/contactos — crear un contacto
 const crear = (req, res) => {
@@ -21,10 +19,10 @@ const crear = (req, res) => {
         }
 
         const contacto = modelo.crearContacto({
-            nombre: nombre.trim(),
+            nombre: limpiarTexto(nombre),
             email: email.trim(),
-            telefono: telefono ? telefono.trim() : null,
-            mensaje: mensaje.trim()
+            telefono: telefono ? limpiarTexto(telefono) : null,
+            mensaje: limpiarTexto(mensaje)
         });
 
         return res.status(201).json(contacto);
@@ -77,10 +75,10 @@ const actualizar = (req, res) => {
         }
 
         const contacto = modelo.actualizarContacto(req.params.id, {
-            nombre: nombre.trim(),
+            nombre: limpiarTexto(nombre),
             email: email.trim(),
-            telefono: telefono ? telefono.trim() : null,
-            mensaje: mensaje.trim()
+            telefono: telefono ? limpiarTexto(telefono) : null,
+            mensaje: limpiarTexto(mensaje)
         });
 
         if (!contacto) {
@@ -103,7 +101,14 @@ const actualizarParcial = (req, res) => {
             return res.status(400).json({ error: 'El email no tiene un formato válido.' });
         }
 
-        const contacto = modelo.actualizarParcialContacto(req.params.id, req.body);
+        // Sanitiza solo los campos de texto presentes en la petición.
+        const campos = { ...req.body };
+        if (campos.nombre !== undefined) campos.nombre = limpiarTexto(campos.nombre);
+        if (campos.telefono !== undefined) campos.telefono = limpiarTexto(campos.telefono);
+        if (campos.mensaje !== undefined) campos.mensaje = limpiarTexto(campos.mensaje);
+        if (campos.email !== undefined) campos.email = String(campos.email).trim();
+
+        const contacto = modelo.actualizarParcialContacto(req.params.id, campos);
 
         if (!contacto) {
             return res.status(404).json({ error: 'Contacto no encontrado.' });
